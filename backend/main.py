@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
+from zoneinfo import ZoneInfo
 import json
 import numpy as np
 
@@ -39,7 +40,7 @@ async def ingest(req: IngestRequest):
         if not raw_text.strip():
             raise HTTPException(status_code=400, detail="Content is empty")
 
-        created_at = datetime.utcnow().isoformat()
+        created_at = datetime.now(ZoneInfo("Asia/Kolkata")).isoformat()
         conn = get_conn()
         cur = conn.cursor()
 
