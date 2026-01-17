@@ -140,7 +140,7 @@ function App() {
 
           <form onSubmit={handleIngest}>
             <div className="form-group">
-              <label>
+              <label style={{ marginLeft: "20px" }}>
                 <input
                   type="radio"
                   value="note"
