@@ -6,8 +6,6 @@ from sentence_transformers import SentenceTransformer
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-chunk_store = []  # each: {"item_id":..., "chunk":..., "embedding":...}
-
 
 def chunk_text(text: str, chunk_size: int = 500, overlap: int = 100) -> List[str]:
     text = text.strip()
@@ -37,38 +35,12 @@ async def fetch_url_text(url: str) -> str:
     return text[:12000]
 
 
-def add_chunks(item_id: str, chunks: List[str]):
-    embeddings = model.encode(chunks, convert_to_numpy=True).astype("float32")
-
-    for ch, emb in zip(chunks, embeddings):
-        chunk_store.append({
-            "item_id": item_id,
-            "chunk": ch,
-            "embedding": emb
-        })
+def embed_texts(texts: List[str]) -> np.ndarray:
+    return model.encode(texts, convert_to_numpy=True).astype("float32")
 
 
 def cosine_similarity(a: np.ndarray, b: np.ndarray) -> float:
     return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
-
-
-def search_chunks(question: str, top_k: int = 3):
-    if len(chunk_store) == 0:
-        return []
-
-    q_emb = model.encode([question], convert_to_numpy=True)[0].astype("float32")
-
-    scored = []
-    for obj in chunk_store:
-        score = cosine_similarity(q_emb, obj["embedding"])
-        scored.append({
-            "item_id": obj["item_id"],
-            "chunk": obj["chunk"],
-            "score": score
-        })
-
-    scored.sort(key=lambda x: x["score"], reverse=True)
-    return scored[:top_k]
 
 
 def generate_answer_simple(question: str, contexts: List[str]) -> str:
