@@ -54,7 +54,7 @@ def generate_answer_simple(question: str, contexts: List[str]) -> str:
     q = question.lower().strip()
     combined = " ".join(contexts)
 
-    # ✅ Special handling: CGPA type questions
+   
     if "cgpa" in q:
         # find patterns like 8.46, 7.9, 9.1
         match = re.search(r"\b\d{1}\.\d{1,2}\b", combined)
@@ -62,18 +62,18 @@ def generate_answer_simple(question: str, contexts: List[str]) -> str:
             return match.group(0)
         return "I don't have enough information in the saved content to answer this."
 
-    # ✅ Special handling: percentage
+   
     if "percentage" in q or "%" in q:
         match = re.search(r"\b\d{1,2}\.?\d{0,2}\s?%\b", combined)
         if match:
             return match.group(0).replace(" ", "")
         return "I don't have enough information in the saved content to answer this."
 
-    # ✅ Default: return only 1 best sentence (not full chunk)
+   
     sentences = re.split(r'(?<=[.!?])\s+', combined.strip())
     sentences = [s.strip() for s in sentences if len(s.strip()) > 15]
 
-    # Score sentences by keyword overlap
+
     q_words = set(re.findall(r"[a-zA-Z0-9]+", q))
     best_sentence = None
     best_score = 0

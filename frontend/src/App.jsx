@@ -13,12 +13,11 @@ function App() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  // Ingest form state
+
   const [ingestType, setIngestType] = useState("note"); // note | url
   const [textContent, setTextContent] = useState("");
   const [urlContent, setUrlContent] = useState("");
 
-  // Query state
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState(null);
   const [sources, setSources] = useState([]);
