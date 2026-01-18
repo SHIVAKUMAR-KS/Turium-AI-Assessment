@@ -62,7 +62,7 @@ ai-knowledge-inbox/
 │   ├── db.py
 │   ├── models.py
 │   ├── rag.py
-│   ├── inbox.db            ## 📌 AI Knowledge Inbox (Minimal RAG App)
+│   ├── inbox.db            
 
 AI Knowledge Inbox is a minimal, production-style web app that allows users to:
 
@@ -78,7 +78,7 @@ Built as an interview assignment focusing on **frontend + backend + ingestion + 
 ## 🚀 Features
 
  1) Content Ingestion
-- Add plain text notes**
+- Add plain text notes
 - Add URLs
   - Fetches web page content server-side
   - Extracts readable text using HTML parsing (BeautifulSoup)
@@ -114,7 +114,7 @@ This project implements a lightweight RAG flow:
 
 ---
 
-## 🧱 Tech Stack
+##  Tech Stack
 
  Backend
 - FastAPI (Python)
@@ -322,53 +322,6 @@ This makes the response more user-friendly and closer to real RAG behavior.
 - Retrieval is currently **O(N)** across all stored chunks
 - SQLite is suitable for minimal use but not optimized for large-scale vector search
 
-### Production Improvements (Future Work)
-
-Replace brute-force similarity scan with:
-
-- **FAISS** (local)
-- **pgvector** (Postgres)
-- **Qdrant / Pinecone / Weaviate**
-
-Add async background jobs for ingestion
-
-Add caching and pagination for items
-
-Add authentication + multi-user support
-
-Add structured citations like `[1]` `[2]`
-
-Add monitoring/logging + rate limits
-
----
-
-## 🧪 Testing with Postman
-
-### Ingest Note
-
-**POST** `http://127.0.0.1:8000/ingest`
-```json
-{
-  "type": "note",
-  "content": "FastAPI is used to build APIs quickly."
-}
-```
-
-### Get Items
-
-**GET** `http://127.0.0.1:8000/items`
-
-### Ask Question
-
-**POST** `http://127.0.0.1:8000/query`
-```json
-{
-  "question": "What is FastAPI used for?",
-  "top_k": 3
-}
-```
-
----
 
 ## 🗄️ View SQLite Data
 
@@ -380,6 +333,20 @@ You can inspect it using:
 
 - **DB Browser for SQLite**
 - OR **sqlite3 CLI**
+### To Start sqlite
+```
+# sqlite3 inbob.db
+```
+
+### To see tables
+```
+.tables
+```
+### Run the tables
+```
+select * from items;
+select * from chunks;
+```
 
 ### Example SQL:
 ```sql
