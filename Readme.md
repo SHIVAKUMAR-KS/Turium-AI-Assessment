@@ -387,14 +387,7 @@ SELECT * FROM items;
 SELECT * FROM chunks LIMIT 5;
 ```
 
----
 
-## 👤 Author
-
-**Shiva Kumar**  
-AI Knowledge Inbox (Minimal RAG) – Interview Assignment Project
-
----
 
 If you want, I can also generate a final polished README with:
 ✅ screenshots section  
