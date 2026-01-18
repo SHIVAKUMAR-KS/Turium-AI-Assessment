@@ -122,6 +122,71 @@ def query(req: QueryRequest):
             scored.append({
                 "item_id": r["item_id"],
                 "chunk": r["chunk"],
+                "score": float(score)
+            })
+
+        scored.sort(key=lambda x: x["score"], reverse=True)
+
+        # safer top_k (avoid huge context)
+        top_k = min(max(req.top_k, 1), 5)
+        top_chunks = scored[:top_k]
+
+        contexts = []
+        for x in top_chunks:
+            c = x["chunk"].strip()
+            # limit chunk size
+            if len(c) > 800:
+                c = c[:800] + "..."
+            contexts.append(c)
+
+        answer = generate_answer_simple(question, contexts)
+
+        # return sources as snippets only
+        sources = []
+        for x in top_chunks:
+            snippet = x["chunk"].strip()
+            if len(snippet) > 220:
+                snippet = snippet[:220] + "..."
+
+            sources.append({
+                "item_id": x["item_id"],
+                "score": x["score"],
+                "snippet": snippet
+            })
+
+        return {"answer": answer, "sources": sources}
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Query failed: {str(e)}")
+
+
+
+    try:
+        question = req.question.strip()
+        if not question:
+            raise HTTPException(status_code=400, detail="Question is required")
+
+        conn = get_conn()
+        cur = conn.cursor()
+
+        cur.execute("SELECT item_id, chunk, embedding FROM chunks")
+        rows = cur.fetchall()
+        conn.close()
+
+        if len(rows) == 0:
+            raise HTTPException(status_code=400, detail="No data found. Please ingest notes/urls first.")
+
+        q_emb = embed_texts([question])[0]
+
+        scored = []
+        for r in rows:
+            emb = np.array(json.loads(r["embedding"]), dtype=np.float32)
+            score = cosine_similarity(q_emb, emb)
+            scored.append({
+                "item_id": r["item_id"],
+                "chunk": r["chunk"],
                 "score": score
             })
 
