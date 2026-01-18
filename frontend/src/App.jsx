@@ -274,7 +274,7 @@ function App() {
                           : source.score}
                       </div>
 
-                      <div className="source-content">{source.chunk}</div>
+                      <div className="source-content">{source.snippet}</div>
                     </div>
                   ))}
                 </div>
