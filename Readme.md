@@ -77,10 +77,10 @@ Built as an interview assignment focusing on **frontend + backend + ingestion + 
 
 ## 🚀 Features
 
-### 1) Content Ingestion
-- Add **plain text notes**
-- Add **URLs**
-  - Fetches web page content **server-side**
+ 1) Content Ingestion
+- Add plain text notes**
+- Add URLs
+  - Fetches web page content server-side
   - Extracts readable text using HTML parsing (BeautifulSoup)
 - Stores:
   - raw content (`raw_text`)
@@ -88,23 +88,23 @@ Built as an interview assignment focusing on **frontend + backend + ingestion + 
 
 ---
 
-### 2) Semantic Search + RAG (Minimal)
+ 2) Semantic Search + RAG (Minimal)
 This project implements a lightweight RAG flow:
 
-- **Chunking**: fixed-size chunking with overlap (to preserve context continuity)
-- **Embeddings**: local embeddings using `sentence-transformers` (`all-MiniLM-L6-v2`)
-- **Vector Store**: SQLite table storing embeddings per chunk (JSON)
-- **Retrieval**:
+- Chunking: fixed-size chunking with overlap (to preserve context continuity)
+- Embeddings: local embeddings using `sentence-transformers` (`all-MiniLM-L6-v2`)
+- Vector Store: SQLite table storing embeddings per chunk (JSON)
+- Retrieval:
   - cosine similarity scoring
   - top_k chunk selection (default 3)
-- **Answering**:
-  - Generates a **short answer** instead of returning full stored content
-  - Supports **exact-value extraction** for questions like CGPA / percentage
-  - Uses a **relevance gate** to avoid answering unrelated questions
+- Answering:
+  - Generates a short answer instead of returning full stored content
+  - Supports exact-value extraction for questions like CGPA / percentage
+  - Uses a relevance gate to avoid answering unrelated questions
 
 ---
 
-### 3) Frontend (React)
+ 3) Frontend (React)
 - Add note / URL input
 - List saved items
 - Ask question interface
@@ -116,21 +116,21 @@ This project implements a lightweight RAG flow:
 
 ## 🧱 Tech Stack
 
-### Backend
+ Backend
 - FastAPI (Python)
 - SQLite (lightweight DB)
 - SentenceTransformers (local embeddings)
 - Semantic search using cosine similarity
 - HTTPX + BeautifulSoup (server-side URL fetching + parsing)
 
-### Frontend
+ Frontend
 - React (Hooks)
 - Axios
 - Minimal UI with tabs (Add Content / Saved Items / Ask Question)
 
 ---
 
-## 📁 Project Structure
+  Project Structure
 ```txt
 ai-knowledge-inbox/
 │── backend/
