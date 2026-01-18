@@ -396,7 +396,7 @@ AI Knowledge Inbox (Minimal RAG) – Interview Assignment Project
 
 ---
 
-If you want, I can also generate a **final polished README** with:
+If you want, I can also generate a final polished README with:
 ✅ screenshots section  
 ✅ API request/response examples for both note + URL  
 ✅ known issues section (like snippet display fix)  
